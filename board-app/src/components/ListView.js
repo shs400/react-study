@@ -1,48 +1,36 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
 
 class ListView extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            keySelected: -1,
+        };
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(index){
+        this.props.isSelected(index)
+    }
+
     render(){
 
         const tableDate = this.props.contact;
 
         const TableExampleSimple = () => (
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderColumn>Name</TableHeaderColumn>
-                        <TableHeaderColumn>Age</TableHeaderColumn>
-                        <TableHeaderColumn>Phone</TableHeaderColumn>
-                        <TableHeaderColumn>Email</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+            <div>
+                <ul className="collection">
                     {tableDate.map((contact, index) => (
-                    <TableRow key={index}>
-                            <TableRowColumn>{contact.name}</TableRowColumn>
-                            <TableRowColumn>{contact.age}</TableRowColumn>
-                            <TableRowColumn>{contact.phone}</TableRowColumn>
-                            <TableRowColumn>{contact.email}</TableRowColumn>
-                    </TableRow>
+                        <li key={index} onClick={()=>{this.handleClick(index)}} className="collection-item dismissable"><div>{contact.name}<a href="#!" className="secondary-content"><i className="material-icons">내용보기</i></a></div></li>
                     ))}
-                </TableBody>
-            </Table>
+                </ul>
+            </div>
         );
 
         return (
-            <div>
-                <MuiThemeProvider>
-                    <TableExampleSimple />
-                </MuiThemeProvider>
-            </div>
+                <TableExampleSimple />
         );
     }
 }

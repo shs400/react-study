@@ -2,12 +2,14 @@ import React from 'react';
 import update from 'react-addons-update';
 import CreateButton from './CreateButton';
 import ListView from './ListView';
+import Counter from './Counter'
 
 class Container extends React.Component{
     constructor(props){
         super(props);
 
         this.state = {
+            selectedKey: -1,
             UserData: [
                 {
                     name: 'SIM',
@@ -30,6 +32,8 @@ class Container extends React.Component{
             ]
         };
         this.handleCreate = this.handleCreate.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
+        this.handleSelected = this.handleSelected.bind(this);
     }
 
     handleCreate(contact){
@@ -38,16 +42,28 @@ class Container extends React.Component{
         });
     }
 
+    handleRemove(){
+        this.setState({
+            UserData: update(this.state.UserData, { $splice: [[this.state.selectedKey, 1]]}), selectedKey: -1
+        });
+    }
+
+    handleSelected(index) {
+        this.setState({
+            selectedKey:index
+        });
+    }
 
     render(){
 
         const mapToComponent = (data) => {
-            return (<ListView contact={data}/>)
+            return (<ListView contact={data} isSelected={this.handleSelected}/>)
         };
 
         return (
             <div>
-                <CreateButton onCreate={this.handleCreate}/>
+                <CreateButton onCreate={this.handleCreate} onRemove={this.handleRemove}/>
+                <Counter contact={this.state.UserData} />
                 <div>
                     {mapToComponent(this.state.UserData)}
                 </div>
