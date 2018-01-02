@@ -9,7 +9,6 @@ class Counter extends React.Component{
         super(props);
 
     }
-
     render(){
 
         const style= {
@@ -18,7 +17,7 @@ class Counter extends React.Component{
 
         return(
             <div className="total" style={style}>
-                <h1>{this.props.total}</h1>
+                <h1>{this.props.contact.length}</h1>
             </div>
         )
     }
@@ -28,7 +27,7 @@ class Counter extends React.Component{
 Counter.prototypes = {
     total: PropTypes.number,
     onChange: PropTypes.func
-}
+};
 
 const defaultProps = {
     total: -1,
@@ -46,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
     handleTotalChange: () => { dispatch(actions.total())}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+export default Counter;

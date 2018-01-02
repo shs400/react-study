@@ -2,7 +2,7 @@ import React from 'react';
 import update from 'react-addons-update';
 import CreateButton from './CreateButton';
 import ListView from './ListView';
-import Counter from './Counter'
+import Counter from './Counter';
 
 class Container extends React.Component{
     constructor(props){
@@ -37,8 +37,16 @@ class Container extends React.Component{
     }
 
     handleCreate(contact){
-        this.setState({
-           UserData: update(this.state.UserData, { $push: [contact] })
+        let _this = this;
+        new Promise(function(resolve, reject){
+            _this.setState({
+                UserData: update(_this.state.UserData, { $push: [contact] })
+            });
+            resolve('성공');
+        }).then(function (reason) {
+            console.log(reason);
+            console.log('this.props.UserData1 : ',_this.state.UserData.length)
+
         });
     }
 
@@ -49,9 +57,16 @@ class Container extends React.Component{
     }
 
     handleSelected(index) {
-        this.setState({
-            selectedKey:index
-        });
+        let _this = this;
+        new Promise(function (resolve, reject) {
+            resolve(
+                _this.setState({
+                    selectedKey:index,
+                })
+            )
+        }).then(function (reason) {
+            document.getElementsByClassName('collection-item')[_this.state.selectedKey].classList.add('active')
+        })
     }
 
     render(){
@@ -62,7 +77,7 @@ class Container extends React.Component{
 
         return (
             <div>
-                <CreateButton onCreate={this.handleCreate} onRemove={this.handleRemove}/>
+                <CreateButton onCreate={this.handleCreate} onRemove={this.handleRemove} contact={this.state.UserData}/>
                 <Counter contact={this.state.UserData} />
                 <div>
                     {mapToComponent(this.state.UserData)}
