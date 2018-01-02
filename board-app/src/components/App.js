@@ -1,14 +1,21 @@
 import React from 'react';
 import Header from './Header';
-import Container from './Container';
+import Home from './Home';
+import DetailApp from './DetailApp';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 class App extends React.Component {
     render (){
         return (
-            <div>
-                <Header />
-                <Container />
-            </div>
+            <Router>
+                <div>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/detailapp" component={DetailApp} />
+                    </Switch>
+                </div>
+            </Router>
         )
     }
 }
